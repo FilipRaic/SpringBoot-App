@@ -9,6 +9,6 @@ public interface GenericRepository<T extends GenericClass> {
     List<T> findAll();
     Optional<T> findByCode(String code);
     void create(T object);
-    void update(String code, T object);
+    void update(String code, Double price);
     void delete(String code);
 }

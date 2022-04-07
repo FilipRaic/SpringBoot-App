@@ -39,14 +39,10 @@ public class HardwareRepository implements GenericRepository<Hardware> {
     }
 
     @Override
-    public void update(String hardwareCode, Hardware updatedHardware) {
+    public void update(String hardwareCode, Double price) {
         for (Hardware hardware : hardwareList) {
             if (hardware.getCode().equals(hardwareCode)) {
-                hardware.setName(updatedHardware.getName());
-                hardware.setCode(updatedHardware.getCode());
-                hardware.setPrice(updatedHardware.getPrice());
-                hardware.setType(updatedHardware.getType());
-                hardware.setAmountAvailable(updatedHardware.getAmountAvailable());
+                hardware.setPrice(price);
             }
         }
     }

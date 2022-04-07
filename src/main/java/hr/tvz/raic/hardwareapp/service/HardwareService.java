@@ -35,7 +35,10 @@ public class HardwareService {
     }
 
     public Optional<HardwareDTO> getHardwareByCode(String hardwareCode) {
-        Hardware hardware = hardwareRepository.findByCode(hardwareCode).get();
+        Hardware hardware = hardwareRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
+        if (hardware == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
+        }
         if (hardware.getType().equals(HardwareTypeConst.OTHER) && hardware.getAmountAvailable() >= 100) {
             return Optional.of(applyDiscount(hardware));
         }
@@ -54,9 +57,12 @@ public class HardwareService {
         return ResponseEntity.ok(new HardwareDTO(newHardware));
     }
 
-    public HardwareDTO update(String hardwareCode, HardwareCommand hardwareCommand) {
-        Hardware updatedHardware = new Hardware(hardwareCommand);
-        hardwareRepository.update(hardwareCode, updatedHardware);
+    public HardwareDTO update(String hardwareCode, Double price) {
+        Hardware updatedHardware = hardwareRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
+        if (updatedHardware == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
+        }
+        hardwareRepository.update(hardwareCode, price);
         return new HardwareDTO(updatedHardware);
     }
 
