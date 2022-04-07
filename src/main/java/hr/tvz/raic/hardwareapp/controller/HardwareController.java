@@ -38,10 +38,10 @@ public class HardwareController {
         return hardwareService.create(hardwareCommand);
     }
 
-    @PutMapping(value = "{hardwareCode}")
+    @PutMapping(value = "/price/{hardwareCode}")
     @ResponseBody
-    public HardwareDTO putHardware(@PathVariable("hardwareCode") String hardwareCode, @RequestBody HardwareCommand hardwareCommand) {
-        return hardwareService.update(hardwareCode, hardwareCommand);
+    public HardwareDTO updateHardware(@PathVariable("hardwareCode") String hardwareCode, @RequestBody HardwareCommand hardwareCommand) {
+        return hardwareService.update(hardwareCode, hardwareCommand.getPrice());
     }
 
     @DeleteMapping(value = "{hardwareCode}")
