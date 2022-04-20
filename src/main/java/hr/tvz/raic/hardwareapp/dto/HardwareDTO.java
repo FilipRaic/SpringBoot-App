@@ -13,12 +13,12 @@ public class HardwareDTO extends GenericDTO {
     private Double price;
 
     public HardwareDTO(Hardware hardware) {
-        super(hardware.getName());
+        super(hardware.getCode(), hardware.getName());
         this.price = hardware.getPrice();
     }
 
-    public HardwareDTO(@NonNull String name, Double price) {
-        super(name);
+    public HardwareDTO(@NonNull String code, @NonNull String name, Double price) {
+        super(code, name);
         this.price = price;
     }
 }

@@ -12,5 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public abstract class GenericDTO implements Serializable {
     @NonNull
+    private String code;
+    @NonNull
     private String name;
 }

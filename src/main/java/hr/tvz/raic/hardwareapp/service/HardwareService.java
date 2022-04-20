@@ -71,6 +71,6 @@ public class HardwareService {
     }
 
     public static HardwareDTO applyDiscount(Hardware hardware) {
-        return new HardwareDTO(hardware.getName(), hardware.getPrice()*0.75);
+        return new HardwareDTO(hardware.getCode(), hardware.getName(), hardware.getPrice()*0.75);
     }
 }
