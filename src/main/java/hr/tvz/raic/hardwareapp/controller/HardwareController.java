@@ -28,7 +28,7 @@ public class HardwareController {
     @GetMapping(value = "{hardwareCode}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public HardwareDTO getHardware(@PathVariable("hardwareCode") String hardwareCode) {
+    public List<HardwareDTO> getHardware(@PathVariable("hardwareCode") String hardwareCode) {
         return hardwareService.getHardwareByCode(hardwareCode).get();
     }
 

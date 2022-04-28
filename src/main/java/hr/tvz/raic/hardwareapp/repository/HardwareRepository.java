@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HardwareRepository implements GenericRepository<Hardware> {
+public class HardwareRepository implements HardwareRepositoryInterface {
     @UniqueElements
     private static List<Hardware> hardwareList = new ArrayList<>(Arrays.asList(
-            new Hardware("Ryzen 5 3500x", "1001", 139.0,HardwareTypeConst.CPU, 15),
-            new Hardware("Ryzen 5 3600x", "1000", 350.0, HardwareTypeConst.OTHER, 200),
-            new Hardware("Ryzen 5 5600x", "1002", 750.0, HardwareTypeConst.OTHER, 10),
-            new Hardware("Intel i9-9900K", "1003", 1200.0, HardwareTypeConst.OTHER, 10)));
+            new Hardware(1L, "Ryzen 5 3500x", "1001", 139.0,HardwareTypeConst.CPU, 15),
+            new Hardware(2L, "Ryzen 5 3600x", "1000", 350.0, HardwareTypeConst.OTHER, 200),
+            new Hardware(3L, "Ryzen 5 5600x", "1002", 750.0, HardwareTypeConst.OTHER, 10),
+            new Hardware(4L, "Intel i9-9900K", "1003", 1200.0, HardwareTypeConst.OTHER, 10)));
 
     @Override
     public List<Hardware> findAll() {
@@ -25,10 +25,10 @@ public class HardwareRepository implements GenericRepository<Hardware> {
     }
 
     @Override
-    public Optional<Hardware> findByCode(String hardwareCode) {
+    public Optional<List<Hardware>> findByCode(String hardwareCode) {
         for (Hardware hardware : hardwareList) {
             if (hardware.getCode().equals(hardwareCode)) {
-                return Optional.of(hardware);
+                return Optional.empty();
             }
         }
         return Optional.empty();

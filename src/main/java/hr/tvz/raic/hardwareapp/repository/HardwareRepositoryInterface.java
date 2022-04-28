@@ -1,18 +1,15 @@
 package hr.tvz.raic.hardwareapp.repository;
 
-import hr.tvz.raic.hardwareapp.model.GenericClass;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import hr.tvz.raic.hardwareapp.model.Hardware;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface GenericRepository<T extends GenericClass> extends CrudRepository<T, Long> {
-    List<T> findAll();
-    Optional<T> findByCode(String code);
-    void create(T object);
+public interface HardwareRepositoryInterface {
+    List<Hardware> findAll();
+    Optional<List<Hardware>> findByCode(String code);
+    void create(Hardware object);
     void update(String code, Double price);
     void delete(String code);
 }

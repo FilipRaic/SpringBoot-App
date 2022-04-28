@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS hardware;
+CREATE TABLE hardware (
+    id IDENTITY PRIMARY KEY,
+    code VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    amount INT NOT NULL,
+    price DOUBLE NOT NULL
+);

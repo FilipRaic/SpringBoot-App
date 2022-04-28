@@ -2,27 +2,37 @@ package hr.tvz.raic.hardwareapp.model;
 
 import hr.tvz.raic.hardwareapp.command.HardwareCommand;
 import hr.tvz.raic.hardwareapp.enums.HardwareTypeConst;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class Hardware extends GenericClass {
+@AllArgsConstructor
+@Entity
+public class Hardware {
+    @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+    private String code;
     private Double price;
     private HardwareTypeConst type;
     private Integer amountAvailable;
 
-    public Hardware(String name, String code, Double price, HardwareTypeConst type, Integer amountAvailable) {
-        super(name, code);
-        this.price = price;
-        this.type = type;
-        this.amountAvailable = amountAvailable;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reviewId")
+    private List<Review> reviews;
 
     public Hardware(HardwareCommand hardwareCommand) {
-        super(hardwareCommand.getName(), hardwareCommand.getCode());
+        this.name = hardwareCommand.getName();
+        this.code = hardwareCommand.getCode();
         this.price = hardwareCommand.getPrice();
-        this.type = hardwareCommand.getType();
-        this.amountAvailable = hardwareCommand.getAmountAvailable();
+        this.type = HardwareTypeConst.getTypeFromString(hardwareCommand.getType());
+        this.amountAvailable = hardwareCommand.getAmount();
     }
 }
