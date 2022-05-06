@@ -1,6 +1,5 @@
 package hr.tvz.raic.hardwareapp.command;
 
-import hr.tvz.raic.hardwareapp.enums.HardwareTypeConst;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +30,10 @@ public class HardwareCommand {
     private Double price;
 
     @NotNull(message = "Type must be entered.")
-    private HardwareTypeConst type;
+    private String type;
 
     @NotNull(message = "Amount available must be entered.")
     @Max(value = 9999999, message = "Amount available can not be greater then 9999999.")
     @PositiveOrZero(message = "Amount available must be a positive number.")
-    private Integer amountAvailable;
+    private Integer amount;
 }

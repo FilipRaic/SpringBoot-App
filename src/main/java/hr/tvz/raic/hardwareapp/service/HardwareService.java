@@ -5,6 +5,7 @@ import hr.tvz.raic.hardwareapp.dto.HardwareDTO;
 import hr.tvz.raic.hardwareapp.enums.HardwareTypeConst;
 import hr.tvz.raic.hardwareapp.model.Hardware;
 import hr.tvz.raic.hardwareapp.repository.HardwareRepository;
+import hr.tvz.raic.hardwareapp.repository.JdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,57 +21,59 @@ public class HardwareService {
     @Autowired
     private HardwareRepository hardwareRepository;
 
+    @Autowired
+    private JdbcRepository jdbcRepository;
+
     public List<HardwareDTO> getAllHardware() {
         List<HardwareDTO> hardwareDTOList = new ArrayList<>();
 
-        for (Hardware hardware : hardwareRepository.findAll()) {
-            if (hardware.getType().equals(HardwareTypeConst.OTHER) && hardware.getAmountAvailable() >= 100) {
-                hardwareDTOList.add(applyDiscount(hardware));
-            } else {
-                hardwareDTOList.add(new HardwareDTO(hardware));
-            }
+        for (Hardware hardware : jdbcRepository.findAll()) {
+            hardwareDTOList.add(new HardwareDTO(hardware));
         }
 
         return hardwareDTOList;
     }
 
-    public Optional<HardwareDTO> getHardwareByCode(String hardwareCode) {
-        Hardware hardware = hardwareRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
-        if (hardware == null) {
+    public Optional<List<HardwareDTO>> getHardwareByCode(String hardwareCode) {
+        List<Hardware> hardwareList = jdbcRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
+        if (hardwareList == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
         }
-        if (hardware.getType().equals(HardwareTypeConst.OTHER) && hardware.getAmountAvailable() >= 100) {
-            return Optional.of(applyDiscount(hardware));
+
+        List<HardwareDTO> dtoList = new ArrayList<>();
+
+        for (Hardware hardware : hardwareList) {
+            dtoList.add(new HardwareDTO(hardware));
         }
 
-        return Optional.of(new HardwareDTO(hardware));
+        return Optional.of(dtoList);
     }
 
     public ResponseEntity<HardwareDTO> create(HardwareCommand hardwareCommand) {
+        if (HardwareTypeConst.getTypeFromString(hardwareCommand.getType()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Hardware type is invalid.");
+        }
+
         Hardware newHardware = new Hardware(hardwareCommand);
-        for (Hardware hardware : hardwareRepository.findAll()) {
+        for (Hardware hardware : jdbcRepository.findAll()) {
             if (hardware.getCode().equals(newHardware.getCode())) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Hardware code already exists.");
             }
         }
-        hardwareRepository.create(newHardware);
+        jdbcRepository.create(newHardware);
         return ResponseEntity.ok(new HardwareDTO(newHardware));
     }
 
     public HardwareDTO update(String hardwareCode, Double price) {
-        Hardware updatedHardware = hardwareRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
+        List<Hardware> updatedHardware = jdbcRepository.findByCode(hardwareCode).get();
         if (updatedHardware == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
         }
-        hardwareRepository.update(hardwareCode, price);
-        return new HardwareDTO(updatedHardware);
+        jdbcRepository.update(hardwareCode, price);
+        return new HardwareDTO();
     }
 
     public void delete(String hardwareCode) {
-        hardwareRepository.delete(hardwareCode);
-    }
-
-    public static HardwareDTO applyDiscount(Hardware hardware) {
-        return new HardwareDTO(hardware.getCode(), hardware.getName(), hardware.getPrice()*0.75);
+        jdbcRepository.delete(hardwareCode);
     }
 }
