@@ -7,3 +7,12 @@ CREATE TABLE hardware (
     amount INT NOT NULL,
     price DOUBLE NOT NULL
 );
+
+DROP TABLE IF EXISTS review;
+CREATE TABLE review (
+    id IDENTITY PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    text VARCHAR(624) NOT NULL,
+    rating INT NOT NULL,
+    hardwareid IDENTITY FOREIGN KEY
+);

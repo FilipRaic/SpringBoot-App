@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
 @NoArgsConstructor
@@ -23,10 +25,6 @@ public class Hardware {
     private Double price;
     private HardwareTypeConst type;
     private Integer amountAvailable;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reviewId")
-    private List<Review> reviews;
 
     public Hardware(HardwareCommand hardwareCommand) {
         this.name = hardwareCommand.getName();
