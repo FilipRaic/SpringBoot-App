@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "review")
 public class Review {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
@@ -20,6 +21,6 @@ public class Review {
     private Integer rating;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hardwareId")
-    private Hardware hardwares;
+    @JoinColumn(name = "hardwareid")
+    private Hardware hardware;
 }

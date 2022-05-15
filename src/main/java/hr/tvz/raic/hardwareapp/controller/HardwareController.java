@@ -28,8 +28,8 @@ public class HardwareController {
     @GetMapping(value = "{hardwareCode}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<HardwareDTO> getHardware(@PathVariable("hardwareCode") String hardwareCode) {
-        return hardwareService.getHardwareByCode(hardwareCode).get();
+    public HardwareDTO getHardware(@PathVariable("hardwareCode") String hardwareCode) {
+        return hardwareService.getHardwareByCode(hardwareCode).get().stream().findFirst().get();
     }
 
     @PostMapping

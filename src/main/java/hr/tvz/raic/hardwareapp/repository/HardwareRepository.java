@@ -12,12 +12,14 @@ import java.util.Optional;
 
 @Repository
 public class HardwareRepository implements HardwareRepositoryInterface {
-    @UniqueElements
-    private static List<Hardware> hardwareList = new ArrayList<>(Arrays.asList(
-            new Hardware(1L, "Ryzen 5 3500x", "1001", 139.0,HardwareTypeConst.CPU, 15),
-            new Hardware(2L, "Ryzen 5 3600x", "1000", 350.0, HardwareTypeConst.OTHER, 200),
-            new Hardware(3L, "Ryzen 5 5600x", "1002", 750.0, HardwareTypeConst.OTHER, 10),
-            new Hardware(4L, "Intel i9-9900K", "1003", 1200.0, HardwareTypeConst.OTHER, 10)));
+//    @UniqueElements
+//    private static List<Hardware> hardwareList = new ArrayList<>(Arrays.asList(
+//            new Hardware(1L, "Ryzen 5 3500x", "1001", HardwareTypeConst.CPU, 15, 139.0),
+//            new Hardware(2L, "Ryzen 5 3600x", "1000", HardwareTypeConst.OTHER, 200, 350.0),
+//            new Hardware(3L, "Ryzen 5 5600x", "1002", HardwareTypeConst.OTHER, 10, 750.0),
+//            new Hardware(4L, "Intel i9-9900K", "1003", HardwareTypeConst.OTHER, 10, 1200.0)));
+
+    private static final List<Hardware> hardwareList = new ArrayList<>();
 
     @Override
     public List<Hardware> findAll() {

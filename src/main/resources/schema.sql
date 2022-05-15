@@ -14,5 +14,5 @@ CREATE TABLE review (
     title VARCHAR(255) NOT NULL,
     text VARCHAR(624) NOT NULL,
     rating INT NOT NULL,
-    hardwareid IDENTITY FOREIGN KEY
+    hardwareid LONG
 );
