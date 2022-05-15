@@ -1,6 +1,5 @@
 package hr.tvz.raic.hardwareapp.repository;
 
-import hr.tvz.raic.hardwareapp.enums.HardwareTypeConst;
 import hr.tvz.raic.hardwareapp.model.Hardware;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,11 +25,12 @@ public class JdbcRepository implements HardwareRepositoryInterface {
     private Hardware hardwareMapper(Map<String, Object> map) {
         return new Hardware(
                 (Long) map.get("ID"),
-                map.get("NAME").toString(),
                 map.get("CODE").toString(),
-                (Double) map.get("PRICE"),
-                HardwareTypeConst.getTypeFromString(map.get("TYPE").toString()),
-                (Integer) map.get("AMOUNT")
+                map.get("NAME").toString(),
+                map.get("TYPE").toString(),
+                //HardwareTypeConst.getTypeFromString(map.get("TYPE").toString()),
+                (Integer) map.get("AMOUNT"),
+                (Double) map.get("PRICE")
         );
     }
 
@@ -70,7 +70,7 @@ public class JdbcRepository implements HardwareRepositoryInterface {
         values.put("name", object.getName());
         values.put("price", object.getPrice());
         values.put("type", object.getType());
-        values.put("amount", object.getAmountAvailable());
+        values.put("amount", object.getAmount());
 
         insert.execute(values);
     }
