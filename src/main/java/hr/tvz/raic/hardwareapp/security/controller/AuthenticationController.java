@@ -21,6 +21,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
     public LoginDTO login(@Valid @RequestBody final LoginCommand command) {
         return authenticationService.login(command)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials"));

@@ -38,13 +38,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http = http.cors().and().csrf().disable();
+        http = http.headers().frameOptions().disable().and();
+
         http = http
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/authentication/login/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and();
+
+        http = http
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, e) -> {
@@ -52,18 +54,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
                         }
                 )
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
 
+        http.authorizeRequests()
+                .antMatchers("/authentication/login/**").permitAll()
+                .anyRequest().authenticated();
+
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeHttpRequests()
+                .antMatchers(UNAUTHENTICATED_ENDPOINTS.toArray(new String[0])).permitAll()
+                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, "/hardware/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/hardware/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/hardware/**").hasRole("ADMIN");
     }
 
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers(HttpMethod.OPTIONS, "/authenticate/login/**")
                 .antMatchers("/h2/**");
     }
 }

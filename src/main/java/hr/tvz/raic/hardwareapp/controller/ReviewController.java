@@ -22,10 +22,10 @@ public class ReviewController {
         return reviewService.getAllReviews();
     }
 
-    @GetMapping(value = "{code}")
+    @GetMapping(params = "hardwareCode")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Review> getHardware(@PathVariable("code") String hardwareCode) {
+    public List<Review> getHardware(@RequestParam("hardwareCode") String hardwareCode) {
         return reviewService.getReviewsByHardwareCode(hardwareCode);
     }
 
