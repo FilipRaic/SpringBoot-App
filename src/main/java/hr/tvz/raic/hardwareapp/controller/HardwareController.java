@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/hardware")
+@RequestMapping("hardware")
 @CrossOrigin(origins = "http://localhost:4200")
 public class HardwareController {
     @Autowired
@@ -25,10 +25,10 @@ public class HardwareController {
         return hardwareService.getAllHardware();
     }
 
-    @GetMapping(value = "{hardwareCode}")
+    @GetMapping(value = "{code}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public HardwareDTO getHardware(@PathVariable("hardwareCode") String hardwareCode) {
+    public HardwareDTO getHardware(@PathVariable("code") String hardwareCode) {
         return hardwareService.getHardwareByCode(hardwareCode).get().stream().findFirst().get();
     }
 
@@ -39,16 +39,16 @@ public class HardwareController {
         return hardwareService.create(hardwareCommand);
     }
 
-    @PutMapping(value = "/price/{hardwareCode}")
+    @PutMapping(value = "/{code}")
     @ResponseBody
-    public HardwareDTO updateHardware(@PathVariable("hardwareCode") String hardwareCode, @RequestBody HardwareCommand hardwareCommand) {
-        return hardwareService.update(hardwareCode, hardwareCommand.getPrice());
+    public HardwareDTO updateHardware(@PathVariable("code") String hardwareCode, @RequestBody HardwareCommand hardwareCommand) {
+        return hardwareService.update(hardwareCode, hardwareCommand);
     }
 
-    @DeleteMapping(value = "{hardwareCode}")
+    @DeleteMapping(value = "{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void deleteHardware(@PathVariable("hardwareCode") String hardwareCode) {
+    public void deleteHardware(@PathVariable("code") String hardwareCode) {
         hardwareService.delete(hardwareCode);
     }
 }

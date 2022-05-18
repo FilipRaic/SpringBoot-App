@@ -64,12 +64,12 @@ public class HardwareService {
         return ResponseEntity.ok(new HardwareDTO(newHardware));
     }
 
-    public HardwareDTO update(String hardwareCode, Double price) {
+    public HardwareDTO update(String hardwareCode, HardwareCommand newHardware) {
         List<Hardware> updatedHardware = jdbcRepository.findByCode(hardwareCode).get();
         if (updatedHardware == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
         }
-        jdbcRepository.update(hardwareCode, price);
+        jdbcRepository.update(hardwareCode, newHardware);
         return new HardwareDTO();
     }
 

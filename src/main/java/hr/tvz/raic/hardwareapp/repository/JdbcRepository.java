@@ -1,5 +1,6 @@
 package hr.tvz.raic.hardwareapp.repository;
 
+import hr.tvz.raic.hardwareapp.command.HardwareCommand;
 import hr.tvz.raic.hardwareapp.model.Hardware;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -76,7 +77,17 @@ public class JdbcRepository implements HardwareRepositoryInterface {
     }
 
     @Override
-    public void update(String code, Double price) {
+    public void update(String code, HardwareCommand newHardware) {
+        jdbc.update("UPDATE hardware SET " +
+                        "name = ?, " +
+                        "price = ?, " +
+                        "type = ?, " +
+                        "amount = ? WHERE code = ?",
+                newHardware.getName(),
+                newHardware.getPrice(),
+                newHardware.getType().toString(),
+                newHardware.getAmount(),
+                code);
 
     }
 
