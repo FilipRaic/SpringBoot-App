@@ -1,12 +1,10 @@
 package hr.tvz.raic.hardwareapp.repository;
 
-import hr.tvz.raic.hardwareapp.enums.HardwareTypeConst;
+import hr.tvz.raic.hardwareapp.command.HardwareCommand;
 import hr.tvz.raic.hardwareapp.model.Hardware;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +40,8 @@ public class HardwareRepository implements HardwareRepositoryInterface {
     }
 
     @Override
-    public void update(String hardwareCode, Double price) {
-        for (Hardware hardware : hardwareList) {
-            if (hardware.getCode().equals(hardwareCode)) {
-                hardware.setPrice(price);
-            }
-        }
+    public void update(String hardwareCode, HardwareCommand newHardware) {
+
     }
 
     @Override
