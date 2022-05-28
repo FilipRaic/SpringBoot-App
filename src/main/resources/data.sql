@@ -14,12 +14,15 @@ INSERT INTO review(title, text, rating, hardwareid) VALUES
 
 INSERT INTO user(username, password) VALUES
     ('Admin', '$2a$12$vhQlmjzb1aL1Lk0Ga4cWb.ry9ms.ZtNCY7mhkm5BEvmm1LSqjqXHm'),
-    ('Filip', '$2a$12$gEfo4MrYLXUdq7mcYmc20e1D8hp2ogKARYD8ScXrAHqIZUE5Ao876');
+    ('Filip', '$2a$12$gEfo4MrYLXUdq7mcYmc20e1D8hp2ogKARYD8ScXrAHqIZUE5Ao876'),
+    ('Deleter', '$2a$12$sjIR/adk0KuLoeK4ne7NbeOlxUdK..VePFmkROwxLyinGYH3uwaUi');
 
 INSERT INTO authority(authority_name) VALUES
     ('ROLE_ADMIN'),
-    ('ROLE_USER');
+    ('ROLE_USER'),
+    ('ROLE_DELETER');
 
 INSERT INTO user_authority(user_id, authority_id) VALUES
     (1L, 1L),
-    (2L ,2L);
+    (2L ,2L),
+    (3L, 3L);

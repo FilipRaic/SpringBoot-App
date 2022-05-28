@@ -64,10 +64,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeHttpRequests()
                 .antMatchers(UNAUTHENTICATED_ENDPOINTS.toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMIN", "USER", "DELETER")
                 .antMatchers(HttpMethod.POST, "/hardware/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/hardware/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/hardware/**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.DELETE, "/hardware/**").hasAnyRole("ADMIN", "DELETER");
     }
 
     @Override
