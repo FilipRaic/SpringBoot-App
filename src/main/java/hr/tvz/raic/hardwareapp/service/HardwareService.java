@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class HardwareService {
             }
         }
         jdbcRepository.create(newHardware);
-        return ResponseEntity.ok(new HardwareDTO(newHardware));
+        return ResponseEntity.created(URI.create("/hardware")).body(new HardwareDTO(newHardware));
     }
 
     public HardwareDTO update(String hardwareCode, HardwareCommand newHardware) {
