@@ -25,7 +25,7 @@ public class ReviewController {
     @GetMapping(params = "hardwareCode")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Review> getHardware(@RequestParam("hardwareCode") String hardwareCode) {
+    public List<Review> getReviewsByHardwareCode(@RequestParam("hardwareCode") String hardwareCode) {
         return reviewService.getReviewsByHardwareCode(hardwareCode);
     }
 

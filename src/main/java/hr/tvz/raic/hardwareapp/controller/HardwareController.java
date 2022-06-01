@@ -40,6 +40,7 @@ public class HardwareController {
     }
 
     @PutMapping(value = "/{code}")
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public HardwareDTO updateHardware(@PathVariable("code") String hardwareCode, @RequestBody HardwareCommand hardwareCommand) {
         return hardwareService.update(hardwareCode, hardwareCommand);
