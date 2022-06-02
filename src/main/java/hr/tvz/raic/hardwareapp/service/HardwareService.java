@@ -37,7 +37,7 @@ public class HardwareService {
 
     public Optional<List<HardwareDTO>> getHardwareByCode(String hardwareCode) {
         List<Hardware> hardwareList = jdbcRepository.findByCode(hardwareCode).map(hardware1 -> ResponseEntity.status(HttpStatus.OK).body(hardware1)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build()).getBody();
-        if (hardwareList == null) {
+        if (hardwareList == null || hardwareList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hardware with that code does not exist.");
         }
 

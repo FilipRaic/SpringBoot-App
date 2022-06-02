@@ -31,13 +31,26 @@ class AuthenticationControllerTest {
         requestBody.put("username", "Admin");
         requestBody.put("password", "admin");
         mockMvc.perform(
-                post("/authentication/login")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(requestBody))
-            )
-            .andExpect(status().isOk())
-            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-            .andExpect(content().encoding(StandardCharsets.UTF_8))
-            .andExpect(jsonPath("$.jwt").isNotEmpty());
+            post("/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestBody))
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().encoding(StandardCharsets.UTF_8))
+        .andExpect(jsonPath("$.jwt").isNotEmpty());
+    }
+
+    @Test
+    void invalidCredentials() throws Exception {
+        Map<String,Object> requestBody = new HashMap<>();
+        requestBody.put("username", "Ante");
+        requestBody.put("password", "antic");
+        mockMvc.perform(
+            post("/authentication/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestBody))
+        )
+        .andExpect(status().isBadRequest());
     }
 }

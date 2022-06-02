@@ -66,6 +66,22 @@ class HardwareControllerTest {
     }
 
     @Test
+    void getHardwareByCodeTest_whenNonExistingHardwareCode() throws Exception {
+        String hardwareCode = "1014";
+
+        mockMvc.perform(
+            get("/hardware/" + hardwareCode)
+                .with(user("Admin")
+                    .password("admin")
+                    .roles("ADMIN")
+                )
+            .with(csrf())
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isNotFound());
+    }
+
+    @Test
     @Transactional
     void createHardwareTest() throws Exception {
         HardwareCommand hardwareCommand = new HardwareCommand();
