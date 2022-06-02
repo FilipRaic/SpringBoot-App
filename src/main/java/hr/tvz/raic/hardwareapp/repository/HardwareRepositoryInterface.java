@@ -14,4 +14,5 @@ public interface HardwareRepositoryInterface {
     void create(Hardware object);
     void update(String code, HardwareCommand newHardware);
     void delete(String code);
+    List<Hardware> findHardwareWithQty();
 }
