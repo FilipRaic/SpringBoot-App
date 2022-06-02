@@ -41,8 +41,8 @@ public class JdbcRepository implements HardwareRepositoryInterface {
 
         List<Map<String, Object>> map = jdbc.queryForList("SELECT * FROM hardware");
 
-        for (int i = 0; i < map.size(); i++) {
-            list.add(hardwareMapper(map.get(i)));
+        for (Map<String, Object> stringObjectMap : map) {
+            list.add(hardwareMapper(stringObjectMap));
         }
         return list;
     }
@@ -54,8 +54,8 @@ public class JdbcRepository implements HardwareRepositoryInterface {
 
             List<Map<String, Object>> map = jdbc.queryForList("SELECT * FROM hardware WHERE code ILIKE '" + code + "%'");
 
-            for (int i = 0; i < map.size(); i++) {
-                list.add(hardwareMapper(map.get(i)));
+            for (Map<String, Object> stringObjectMap : map) {
+                list.add(hardwareMapper(stringObjectMap));
             }
             return Optional.ofNullable(list);
         } catch (EmptyResultDataAccessException ex) {
@@ -95,4 +95,18 @@ public class JdbcRepository implements HardwareRepositoryInterface {
     public void delete(String code) {
         jdbc.update("DELETE FROM hardware WHERE code = ?", code);
     }
+
+    @Override
+    public List<Hardware> findHardwareWithQty() {
+        List<Hardware> list = new ArrayList<>();
+
+        List<Map<String, Object>> map = jdbc.queryForList("SELECT * FROM hardware WHERE amount > 0");
+
+        for (Map<String, Object> stringObjectMap : map) {
+            list.add(hardwareMapper(stringObjectMap));
+        }
+        return list;
+    }
+
+
 }

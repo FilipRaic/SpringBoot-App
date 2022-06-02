@@ -48,4 +48,9 @@ public class HardwareRepository implements HardwareRepositoryInterface {
     public void delete(String hardwareCode) {
         hardwareList.remove(findByCode(hardwareCode).get());
     }
+
+    @Override
+    public List<Hardware> findHardwareWithQty() {
+        return null;
+    }
 }

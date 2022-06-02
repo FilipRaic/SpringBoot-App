@@ -77,4 +77,8 @@ public class HardwareService {
     public void delete(String hardwareCode) {
         jdbcRepository.delete(hardwareCode);
     }
+
+    public List<Hardware> getHardwareWithQty() {
+        return jdbcRepository.findHardwareWithQty();
+    }
 }
