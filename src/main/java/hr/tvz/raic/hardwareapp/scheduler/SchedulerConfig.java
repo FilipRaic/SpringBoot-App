@@ -28,7 +28,7 @@ public class SchedulerConfig {
         return TriggerBuilder.newTrigger().forJob(stockAvailableJobDetail())
                 .withIdentity("stockAvailableTrigger")
                 .withSchedule(scheduleBuilder)
-                .startAt(new Date(System.currentTimeMillis() + 400))
+                .startAt(new Date(System.currentTimeMillis() + 500))
                 .build();
     }
 }
