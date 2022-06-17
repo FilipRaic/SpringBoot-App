@@ -28,7 +28,18 @@ public class SchedulerConfig {
         return TriggerBuilder.newTrigger().forJob(stockAvailableJobDetail())
                 .withIdentity("stockAvailableTrigger")
                 .withSchedule(scheduleBuilder)
-                .startAt(new Date(System.currentTimeMillis() + 500))
+                .startAt(new Date(System.currentTimeMillis() + 1000))
+                .build();
+    }
+
+    @Bean
+    public Trigger stockAvailableJobTriggerEveryWorkdayAtNoon() {
+        return TriggerBuilder.newTrigger().forJob(stockAvailableJobDetail())
+                .withIdentity("stockAvailableTrigger")
+                .withSchedule(DailyTimeIntervalScheduleBuilder
+                        .dailyTimeIntervalSchedule()
+                        .onDaysOfTheWeek(DailyTimeIntervalScheduleBuilder.MONDAY_THROUGH_FRIDAY)
+                        .startingDailyAt(TimeOfDay.hourAndMinuteOfDay(12, 0)))
                 .build();
     }
 }
